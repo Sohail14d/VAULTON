@@ -21,3 +21,8 @@
 - [x] Add a post-login summary dashboard showing recent purchases and upcoming reminders.
 - [x] Implement deployment-safe reminder scheduling for user-configured warranty, return, and incomplete-record alerts.
 - [x] Package the GUARD purchase-management workflow into a validated reusable skill.
+- [x] Add color-coded urgent and overdue indicators to upcoming reminders on the post-login dashboard.
+- [x] Add purchase filtering and sorting controls to the post-login summary dashboard.
+- [x] Add secure receipt attachment previews to the purchase editor.
+- [x] Constrain GUARD AI to supported purchase-management tasks and the signed-in user’s data only.
+- [x] Refine and revalidate the reusable GUARD workflow skill with dashboard, preview, and AI-scope patterns.
