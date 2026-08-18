@@ -1,0 +1,18 @@
+# Project TODO
+
+- [x] Define the responsive GUARD visual system, application navigation, theme behavior, and onboarding flow using the exact sequence: Upload → Extract → Organize → Track.
+- [x] Create a user-scoped purchase data model that supports product, merchant, financial, receipt, warranty, return, serial/model, status, notes, and tag fields.
+- [ ] Implement protected purchase creation, editing, deletion, archiving, search, filtering, duplicate-review, and document metadata workflows.
+- [x] Implement dashboard summaries and an urgency-ranked Attention Center for critical, urgent, reminder, and safe purchase events.
+- [x] Build Purchases, Bills & Receipts, Warranties, Return Deadlines, Spending, GUARD AI, Notifications, and Settings navigation views.
+- [x] Build receipt and invoice upload, supported file-type validation, AI extraction progress states, per-field confidence indicators, and editable review-before-save flow.
+- [x] Build warranty cards, active/expiring/expired states, days-remaining progress visualization, and the Purchase → Return → Today → Expiry timeline.
+- [x] Build return-deadline prioritization with Active, Ending Soon, and Expired states plus urgency ordering.
+- [x] Build a Recharts-based spending dashboard with totals, monthly trend, category breakdown, top merchants, top purchases, and date-range controls.
+- [x] Integrate GUARD AI to answer only from the signed-in user’s stored purchase data and support a situational “What should I do?” lookup.
+- [x] Build a Warranty Claim Assistant that pre-populates purchase data and supports exactly Copy, Download, and Edit actions for generated claim text.
+- [ ] Implement a notification center with configurable 30, 14, 7, 3, and 1 day reminder preferences for deadline, warranty, and incomplete-record alerts, including deployed scheduled delivery.
+- [x] Implement duplicate detection with exactly two resolution actions: Merge and Keep Separate.
+- [ ] Add notification scheduling infrastructure that remains safe across serverless instance restarts, then document deployment requirements before enabling schedules.
+- [ ] Add and run Vitest coverage for core deadline, duplicate, claim, and data-isolation behaviors.
+- [ ] Verify desktop and mobile UI behavior, test application build, review project tracker, save a checkpoint, and deliver the completed project.

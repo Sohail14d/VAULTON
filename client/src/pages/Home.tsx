@@ -1,33 +1,15 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+import { startLogin } from "@/const";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { ArrowRight, Bot, FileScan, ShieldCheck, TimerReset } from "lucide-react";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
 export default function Home() {
-  // The useAuth hook provides authentication state.
-  // To implement login/logout, call logout(), or start login from an event
-  // handler: onClick={() => startLogin()} (imported from "@/const"). Never call
-  // startLogin() during render (no href={startLogin()}) — it mints a one-time
-  // nonce cookie and must run only at the moment of navigation.
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
-
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
-
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+  return <div className="min-h-screen bg-[#f6f8f7] text-slate-950">
+    <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8"><div className="flex items-center gap-2.5"><span className="grid h-9 w-9 place-items-center rounded-xl bg-[#163d35] text-lime-300"><ShieldCheck className="h-5 w-5" /></span><span className="font-semibold tracking-[-0.03em]">GUARD</span></div><Button onClick={startLogin} variant="outline" className="rounded-xl border-slate-200 bg-white">Sign in</Button></header>
+    <main className="mx-auto max-w-7xl px-5 pb-16 pt-12 sm:px-8 sm:pt-20">
+      <section className="grid items-center gap-12 lg:grid-cols-[1fr_.92fr]"><div><div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">Purchase intelligence for everyday life</div><h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-[.98] tracking-[-.06em] sm:text-7xl">Every purchase has a next step. <span className="text-emerald-700">Never miss it.</span></h1><p className="mt-6 max-w-xl text-base leading-7 text-slate-500">GUARD turns scattered receipts and invoices into an organized private workspace for warranties, return windows, claims, and spending decisions.</p><div className="mt-8 flex flex-wrap gap-3"><Button onClick={startLogin} size="lg" className="h-12 rounded-xl bg-[#163d35] px-5 hover:bg-[#0f3029]">Create your workspace <ArrowRight className="ml-2 h-4 w-4" /></Button><a href="#how-it-works" className="inline-flex h-12 items-center justify-center rounded-xl px-4 text-sm font-medium text-slate-600 hover:text-emerald-700">See how it works</a></div></div>
+        <div className="relative overflow-hidden rounded-[2rem] border border-white bg-white p-5 shadow-[0_26px_90px_rgba(25,55,45,.12)] sm:p-7"><div className="absolute inset-x-0 top-0 h-28 bg-[radial-gradient(ellipse_at_top,rgba(163,230,53,.24),transparent_70%)]" /><div className="relative"><div className="flex items-center justify-between"><span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">This week</span><span className="text-xs font-medium text-emerald-700">Protected by GUARD</span></div><div className="mt-7 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-[#163d35] p-4 text-white"><p className="text-xs text-emerald-50/60">Return deadlines</p><p className="mt-2 text-3xl font-semibold tracking-[-.04em]">2</p><p className="mt-4 text-xs text-lime-200">Needs attention</p></div><div className="rounded-2xl bg-[#e9f6e9] p-4"><p className="text-xs text-emerald-800/60">Active warranties</p><p className="mt-2 text-3xl font-semibold tracking-[-.04em] text-emerald-950">12</p><p className="mt-4 text-xs text-emerald-700">All organized</p></div></div><div className="mt-4 rounded-2xl border border-slate-100 p-4"><div className="flex items-start gap-3"><span className="mt-0.5 grid h-8 w-8 place-items-center rounded-lg bg-rose-50 text-rose-500"><TimerReset className="h-4 w-4" /></span><div><p className="text-sm font-semibold">Your return window is closing</p><p className="mt-1 text-xs leading-5 text-slate-500">See exactly what requires attention — and what is still protected.</p></div></div></div></div></div>
+      </section>
+      <section id="how-it-works" className="mt-24 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[{ icon: FileScan, title: "Upload", text: "Add a receipt, invoice, or purchase manually." }, { icon: Bot, title: "Extract", text: "AI identifies the details you need to retain." }, { icon: ShieldCheck, title: "Organize", text: "Keep warranties, returns, and records together." }, { icon: TimerReset, title: "Track", text: "Stay ahead of critical dates and next actions." }].map((item, index) => <article key={item.title} className="rounded-2xl border border-slate-200/80 bg-white p-5"><span className="text-xs font-semibold text-emerald-700">0{index + 1}</span><item.icon className="mt-8 h-5 w-5 text-slate-700" /><h2 className="mt-4 font-semibold tracking-[-.02em]">{item.title}</h2><p className="mt-2 text-sm leading-6 text-slate-500">{item.text}</p></article>)}</section>
+    </main>
+  </div>;
 }
