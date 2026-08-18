@@ -8,7 +8,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
-const protectedPaths = ["/app", "/purchases", "/receipts", "/warranties", "/returns", "/spending", "/ai", "/notifications", "/settings"] as const;
+const protectedPaths = ["/app", "/purchases", "/manage", "/receipts", "/warranties", "/returns", "/spending", "/ai", "/notifications", "/settings"] as const;
 
 function ProtectedApp({ view }: { view: (typeof protectedPaths)[number] }) { return <DashboardLayout><GuardApp view={view} /></DashboardLayout>; }
 

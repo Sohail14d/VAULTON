@@ -12,6 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 const navigation = [
   { icon: LayoutDashboard, label: "Overview", path: "/app" },
   { icon: PackageOpen, label: "Purchases", path: "/purchases" },
+  { icon: ClipboardList, label: "Manage & edit", path: "/manage" },
   { icon: FileText, label: "Bills & receipts", path: "/receipts" },
   { icon: ShieldCheck, label: "Warranties", path: "/warranties" },
   { icon: RotateCcw, label: "Return deadlines", path: "/returns" },

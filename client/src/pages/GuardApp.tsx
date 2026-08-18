@@ -13,8 +13,9 @@ import { Archive, ArrowDownRight, ArrowUpRight, BadgeCheck, BellRing, Bot, Check
 import { useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useLocation } from "wouter";
+import PurchaseEditor from "./PurchaseEditor";
 
-type View = "/app" | "/purchases" | "/receipts" | "/warranties" | "/returns" | "/spending" | "/ai" | "/notifications" | "/settings";
+type View = "/app" | "/purchases" | "/manage" | "/receipts" | "/warranties" | "/returns" | "/spending" | "/ai" | "/notifications" | "/settings";
 type Purchase = {
   id: number;
   productName: string;
@@ -122,4 +123,4 @@ function CameraCapture({ onFile }: { onFile: (file: File) => void }) { const inp
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) { return <label className="mt-4 block text-sm font-medium text-slate-700"><span>{label}</span><span className="mt-1.5 block">{children}</span></label>; }
 
-export default function GuardApp({ view }: { view: View }) { const [addOpen, setAddOpen] = useState(false); const openAdd = () => setAddOpen(true); return <><>{view === "/app" && <Dashboard openAdd={openAdd} />}{view === "/purchases" && <Purchases openAdd={openAdd} />}{view === "/receipts" && <Purchases openAdd={openAdd} defaultReceipt />}{view === "/warranties" && <Warranties openAdd={openAdd} />}{view === "/returns" && <Returns openAdd={openAdd} />}{view === "/spending" && <Spending />}{view === "/ai" && <GuardAI />}{view === "/notifications" && <Notifications />}{view === "/settings" && <Settings />}</><AddPurchaseDialog open={addOpen} onClose={() => setAddOpen(false)} /></>; }
+export default function GuardApp({ view }: { view: View }) { const [addOpen, setAddOpen] = useState(false); const openAdd = () => setAddOpen(true); return <><>{view === "/app" && <Dashboard openAdd={openAdd} />}{view === "/purchases" && <Purchases openAdd={openAdd} />}{view === "/manage" && <PurchaseEditor />}{view === "/receipts" && <Purchases openAdd={openAdd} defaultReceipt />}{view === "/warranties" && <Warranties openAdd={openAdd} />}{view === "/returns" && <Returns openAdd={openAdd} />}{view === "/spending" && <Spending />}{view === "/ai" && <GuardAI />}{view === "/notifications" && <Notifications />}{view === "/settings" && <Settings />}</><AddPurchaseDialog open={addOpen} onClose={() => setAddOpen(false)} /></>; }

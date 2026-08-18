@@ -2,7 +2,7 @@
 
 - [x] Define the responsive GUARD visual system, application navigation, theme behavior, and onboarding flow using the exact sequence: Upload → Extract → Organize → Track.
 - [x] Create a user-scoped purchase data model that supports product, merchant, financial, receipt, warranty, return, serial/model, status, notes, and tag fields.
-- [ ] Implement protected purchase creation, editing, deletion, archiving, search, filtering, duplicate-review, and document metadata workflows.
+- [x] Implement protected purchase creation, editing, deletion, archiving, search, filtering, duplicate-review, and document metadata workflows.
 - [x] Implement dashboard summaries and an urgency-ranked Attention Center for critical, urgent, reminder, and safe purchase events.
 - [x] Build Purchases, Bills & Receipts, Warranties, Return Deadlines, Spending, GUARD AI, Notifications, and Settings navigation views.
 - [x] Build receipt and invoice upload, supported file-type validation, AI extraction progress states, per-field confidence indicators, and editable review-before-save flow.
