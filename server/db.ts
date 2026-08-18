@@ -1,6 +1,7 @@
 import { and, desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
+  automationSchedules,
   InsertPurchase,
   InsertUser,
   notifications,
@@ -15,12 +16,8 @@ let _db: ReturnType<typeof drizzle> | null = null;
 
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
-    try {
-      _db = drizzle(process.env.DATABASE_URL);
-    } catch (error) {
-      console.warn("[Database] Failed to connect:", error);
-      _db = null;
-    }
+    try { _db = drizzle(process.env.DATABASE_URL); }
+    catch (error) { console.warn("[Database] Failed to connect:", error); _db = null; }
   }
   return _db;
 }
@@ -29,14 +26,10 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) throw new Error("User openId is required for upsert");
   const db = await getDb();
   if (!db) return;
-
   const values: InsertUser = { openId: user.openId, lastSignedIn: user.lastSignedIn ?? new Date() };
   const updateSet: Record<string, unknown> = { lastSignedIn: values.lastSignedIn };
   for (const field of ["name", "email", "loginMethod"] as const) {
-    if (user[field] !== undefined) {
-      values[field] = user[field] ?? null;
-      updateSet[field] = user[field] ?? null;
-    }
+    if (user[field] !== undefined) { values[field] = user[field] ?? null; updateSet[field] = user[field] ?? null; }
   }
   values.role = user.role ?? (user.openId === ENV.ownerOpenId ? "admin" : "user");
   updateSet.role = values.role;
@@ -47,6 +40,12 @@ export async function getUserByOpenId(openId: string) {
   const db = await getDb();
   if (!db) return undefined;
   return (await db.select().from(users).where(eq(users.openId, openId)).limit(1))[0];
+}
+
+export async function listAllUsers() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(users);
 }
 
 export async function listPurchasesForUser(userId: number) {
@@ -131,4 +130,29 @@ export async function updatePreferencesForUser(userId: number, values: { reminde
   if (!db) throw new Error("Database is unavailable");
   await db.insert(userPreferences).values({ userId, ...values }).onDuplicateKeyUpdate({ set: values });
   return getPreferencesForUser(userId);
+}
+
+export async function getAutomationScheduleByTaskUid(taskUid: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  return (await db.select().from(automationSchedules).where(eq(automationSchedules.scheduleCronTaskUid, taskUid)).limit(1))[0];
+}
+
+export async function getDailyReminderSchedule() {
+  const db = await getDb();
+  if (!db) return undefined;
+  return (await db.select().from(automationSchedules).where(eq(automationSchedules.name, "daily-reminders")).limit(1))[0];
+}
+
+export async function saveDailyReminderSchedule(values: { taskUid: string; cronExpression: string; enabled: number }) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is unavailable");
+  await db.insert(automationSchedules).values({ name: "daily-reminders", scheduleCronTaskUid: values.taskUid, cronExpression: values.cronExpression, enabled: values.enabled }).onDuplicateKeyUpdate({ set: { scheduleCronTaskUid: values.taskUid, cronExpression: values.cronExpression, enabled: values.enabled } });
+  return getDailyReminderSchedule();
+}
+
+export async function markAutomationScheduleRun(taskUid: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database is unavailable");
+  await db.update(automationSchedules).set({ lastRunAt: new Date() }).where(eq(automationSchedules.scheduleCronTaskUid, taskUid));
 }

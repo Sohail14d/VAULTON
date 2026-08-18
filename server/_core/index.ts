@@ -9,6 +9,8 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { sdk } from "./sdk";
 import { storagePut } from "../storage";
+import { generateNotificationsForUser, getAutomationScheduleByTaskUid, listAllUsers, markAutomationScheduleRun } from "../db";
+import { runScheduledReminderReview } from "../scheduledReminders";
 import { serveStatic, setupVite } from "./vite";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -55,6 +57,21 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
+  app.post("/api/scheduled/daily-reminders", async (req, res) => {
+    try {
+      const user = await sdk.authenticateRequest(req);
+      const result = await runScheduledReminderReview(user, {
+        getScheduleByTaskUid: getAutomationScheduleByTaskUid,
+        listUsers: listAllUsers,
+        generateForUser: generateNotificationsForUser,
+        markRun: markAutomationScheduleRun,
+      });
+      return res.status(result.status).json(result.body);
+    } catch (error) {
+      console.error("[Daily reminder schedule]", error);
+      return res.status(500).json({ error: error instanceof Error ? error.message : "Unable to generate scheduled reminders.", timestamp: new Date().toISOString() });
+    }
+  });
   // tRPC API
   app.use(
     "/api/trpc",

@@ -15,6 +15,13 @@
       "when": 1787029799625,
       "tag": "0001_panoramic_layla_miller",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787032677966,
+      "tag": "0002_happy_wong",
+      "breakpoints": true
     }
   ]
 }

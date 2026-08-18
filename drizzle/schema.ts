@@ -78,8 +78,25 @@ export const userPreferences = mysqlTable("user_preferences", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
+/** Tracks project-level recurring work so callback authentication is bound to a durable task UID. */
+export const automationSchedules = mysqlTable(
+  "automation_schedules",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    name: varchar("name", { length: 100 }).notNull().unique(),
+    scheduleCronTaskUid: varchar("scheduleCronTaskUid", { length: 65 }).unique(),
+    cronExpression: varchar("cronExpression", { length: 64 }).notNull(),
+    enabled: int("enabled").notNull().default(0),
+    lastRunAt: timestamp("lastRunAt"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  table => [index("automation_schedules_task_uid_idx").on(table.scheduleCronTaskUid)],
+);
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export type Purchase = typeof purchases.$inferSelect;
 export type InsertPurchase = typeof purchases.$inferInsert;
 export type Notification = typeof notifications.$inferSelect;
+export type AutomationSchedule = typeof automationSchedules.$inferSelect;

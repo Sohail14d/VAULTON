@@ -11,9 +11,13 @@
 - [x] Build a Recharts-based spending dashboard with totals, monthly trend, category breakdown, top merchants, top purchases, and date-range controls.
 - [x] Integrate GUARD AI to answer only from the signed-in user’s stored purchase data and support a situational “What should I do?” lookup.
 - [x] Build a Warranty Claim Assistant that pre-populates purchase data and supports exactly Copy, Download, and Edit actions for generated claim text.
-- [ ] Implement a notification center with configurable 30, 14, 7, 3, and 1 day reminder preferences for deadline, warranty, and incomplete-record alerts, including deployed scheduled delivery.
+- [x] Implement a notification center with configurable 30, 14, 7, 3, and 1 day reminder preferences for deadline, warranty, and incomplete-record alerts, including deployed scheduled delivery.
 - [x] Implement duplicate detection with exactly two resolution actions: Merge and Keep Separate.
-- [ ] Add notification scheduling infrastructure that remains safe across serverless instance restarts, then document deployment requirements before enabling schedules.
-- [ ] Add and run Vitest coverage for core deadline, duplicate, claim, and data-isolation behaviors.
-- [ ] Verify desktop and mobile UI behavior, test application build, review project tracker, save a checkpoint, and deliver the completed project.
+- [x] Add notification scheduling infrastructure that remains safe across serverless instance restarts, then document deployment requirements before enabling schedules.
+- [x] Add and run Vitest coverage for core deadline, duplicate, claim, and data-isolation behaviors.
+- [x] Verify desktop and mobile UI behavior, test application build, review project tracker, save a checkpoint, and deliver the completed project.
 - [x] Fix post-login navigation so authenticated users are redirected from the landing page to the GUARD workspace.
+- [x] Add real-time purchase-editor validation with field-level feedback and clear save-blocking error messages.
+- [x] Add a post-login summary dashboard showing recent purchases and upcoming reminders.
+- [x] Implement deployment-safe reminder scheduling for user-configured warranty, return, and incomplete-record alerts.
+- [x] Package the GUARD purchase-management workflow into a validated reusable skill.

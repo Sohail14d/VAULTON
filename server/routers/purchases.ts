@@ -1,14 +1,19 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { parse as parseCookie } from "cookie";
+import { COOKIE_NAME } from "@shared/const";
+import { createHeartbeatJob, updateHeartbeatJob } from "../_core/heartbeat";
 import {
   createPurchaseForUser,
   deletePurchaseForUser,
   generateNotificationsForUser,
+  getDailyReminderSchedule,
   getPreferencesForUser,
   getPurchaseForUser,
   listNotificationsForUser,
   listPurchasesForUser,
   markNotificationReadForUser,
+  saveDailyReminderSchedule,
   updatePreferencesForUser,
   updatePurchaseForUser,
 } from "../db";
@@ -233,4 +238,20 @@ export const notificationsRouter = router({
   }),
   preferences: protectedProcedure.query(async ({ ctx }) => (await getPreferencesForUser(ctx.user.id)) ?? { reminderDays: [30, 14, 7, 3, 1], notificationsEnabled: 1 }),
   updatePreferences: protectedProcedure.input(z.object({ reminderDays: z.array(z.number().int()).refine(days => days.every(day => [30, 14, 7, 3, 1].includes(day)), "Use supported reminder days."), notificationsEnabled: z.boolean() })).mutation(({ ctx, input }) => updatePreferencesForUser(ctx.user.id, { reminderDays: input.reminderDays, notificationsEnabled: input.notificationsEnabled ? 1 : 0 })),
+  dailySchedule: protectedProcedure.query(async ({ ctx }) => {
+    if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Only an administrator can manage the daily reminder schedule." });
+    return getDailyReminderSchedule();
+  }),
+  enableDailySchedule: protectedProcedure.input(z.object({ hourUtc: z.number().int().min(0).max(23).default(9) })).mutation(async ({ ctx, input }) => {
+    if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Only an administrator can manage the daily reminder schedule." });
+    const cronExpression = `0 0 ${input.hourUtc} * * *`;
+    const sessionToken = parseCookie(ctx.req.headers.cookie ?? "")[COOKIE_NAME] ?? "";
+    const existing = await getDailyReminderSchedule();
+    if (existing?.scheduleCronTaskUid) {
+      await updateHeartbeatJob(existing.scheduleCronTaskUid, { cron: cronExpression, path: "/api/scheduled/daily-reminders", method: "POST", description: "GUARD daily warranty, return, and incomplete-record reminders", enable: true }, sessionToken);
+      return saveDailyReminderSchedule({ taskUid: existing.scheduleCronTaskUid, cronExpression, enabled: 1 });
+    }
+    const job = await createHeartbeatJob({ name: "guard-daily-reminders", cron: cronExpression, path: "/api/scheduled/daily-reminders", method: "POST", description: "GUARD daily warranty, return, and incomplete-record reminders" }, sessionToken);
+    return saveDailyReminderSchedule({ taskUid: job.taskUid, cronExpression, enabled: 1 });
+  }),
 });

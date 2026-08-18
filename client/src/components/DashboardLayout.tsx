@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { startLogin } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
 import { cn } from "@/lib/utils";
-import { Bell, Bot, CircleDollarSign, ClipboardList, FileText, LayoutDashboard, LogOut, Menu, PackageOpen, PanelLeftClose, PanelLeftOpen, RotateCcw, Settings, ShieldCheck } from "lucide-react";
+import { Bell, Bot, CircleDollarSign, ClipboardList, FileText, LayoutDashboard, LogOut, Menu, PackageOpen, PanelLeftClose, PanelLeftOpen, RotateCcw, Settings, ShieldCheck, Clock3 } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Avatar, AvatarFallback } from "./ui/avatar";
@@ -22,6 +22,7 @@ const navigation = [
 
 const workspaceItems = [
   { icon: Bell, label: "Notifications", path: "/notifications" },
+  { icon: Clock3, label: "Reminder schedule", path: "/reminder-schedule" },
   { icon: Settings, label: "Settings", path: "/settings" },
 ];
 
