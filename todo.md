@@ -16,3 +16,4 @@
 - [ ] Add notification scheduling infrastructure that remains safe across serverless instance restarts, then document deployment requirements before enabling schedules.
 - [ ] Add and run Vitest coverage for core deadline, duplicate, claim, and data-isolation behaviors.
 - [ ] Verify desktop and mobile UI behavior, test application build, review project tracker, save a checkpoint, and deliver the completed project.
+- [x] Fix post-login navigation so authenticated users are redirected from the landing page to the GUARD workspace.
